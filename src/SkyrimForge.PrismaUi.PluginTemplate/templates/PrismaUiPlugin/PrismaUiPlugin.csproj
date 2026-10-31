@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SkyrimForge.PrismaUi" Version="SKYRIMFORGE_PRISMAUI_VERSION" />
+  </ItemGroup>
+
+  <!--
+  To copy the plugin and its page into a mod manager's mod folder, or into the game's Data folder, after each build,
+  set SkyrimForgeDeployDirectory in PrismaUiPlugin.csproj.user, since the folder differs between machines:
+  <Project>
+    <PropertyGroup>
+      <SkyrimForgeDeployDirectory>C:\Path\To\ModOrganizer\mods\PrismaUiPlugin</SkyrimForgeDeployDirectory>
+    </PropertyGroup>
+  </Project>
+  -->
+
+</Project>

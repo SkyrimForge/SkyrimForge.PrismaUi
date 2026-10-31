@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <WarningsAsErrors>nullable</WarningsAsErrors>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <!-- The framework reads service sources only from SharedLibraries. -->
+    <SkyrimForgeSharedLibrary>true</SkyrimForgeSharedLibrary>
+    <!-- Omits runtimeconfig.json from the package. -->
+    <EnableDynamicLoading>false</EnableDynamicLoading>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>Create and script PrismaUI views from a SkyrimForge plugin in C#. PrismaUI renders HTML, CSS, and JavaScript over Skyrim.</Description>
+    <PackageTags>skyrim;skse;skyrimforge;prismaui;modding;skyrimvr</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Passes SkyrimForge's build steps to a plugin that references only this package. -->
+    <PackageReference Include="SkyrimForge" Version="0.1.1" PrivateAssets="none" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="README.md" Visible="false" />
+    <None Update="build\*" Pack="true" PackagePath="build\%(Filename)%(Extension)" />
+  </ItemGroup>
+
+</Project>

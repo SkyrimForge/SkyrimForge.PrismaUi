@@ -1,0 +1,7 @@
+﻿<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/SkyrimForge.PrismaUi/SkyrimForge.PrismaUi.csproj" />
+    <Project Path="src/SkyrimForge.PrismaUi.ExamplePlugin/SkyrimForge.PrismaUi.ExamplePlugin.csproj" />
+    <Project Path="src/SkyrimForge.PrismaUi.PluginTemplate/SkyrimForge.PrismaUi.PluginTemplate.csproj" />
+  </Folder>
+</Solution>

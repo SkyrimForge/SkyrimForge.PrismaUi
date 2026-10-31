@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <WarningsAsErrors>nullable</WarningsAsErrors>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SkyrimForge.PrismaUi\SkyrimForge.PrismaUi.csproj" Private="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The template's plugin class, so every build compiles it and Deploy.ps1 can deploy it. -->
+    <Compile Include="..\SkyrimForge.PrismaUi.PluginTemplate\templates\PrismaUiPlugin\PrismaUiPlugin.cs" Link="PrismaUiPlugin.cs" />
+  </ItemGroup>
+
+</Project>

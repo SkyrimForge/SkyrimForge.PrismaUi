@@ -1,0 +1,26 @@
+﻿<Project>
+
+  <ItemGroup>
+    <_SkyrimForgePrismaUiView Include="$(MSBuildProjectDirectory)\PrismaUI\views\**" />
+  </ItemGroup>
+
+  <!-- The mod supplies the binding in SharedLibraries. -->
+  <Target Name="_SkyrimForgePrismaUiExcludeBinding" AfterTargets="ResolvePackageAssets">
+    <ItemGroup>
+      <RuntimeCopyLocalItems Remove="@(RuntimeCopyLocalItems->WithMetadataValue('NuGetPackageId', 'SkyrimForge.PrismaUi'))" />
+    </ItemGroup>
+  </Target>
+
+  <!-- SkyrimForgeDeploy copies only the SKSE, Scripts, and Source folders. -->
+  <Target Name="_SkyrimForgePrismaUiCopyViews" AfterTargets="CopyFilesToOutputDirectory" Condition="'$(SkyrimForgeDataDir)' != ''">
+    <Copy SourceFiles="@(_SkyrimForgePrismaUiView)" DestinationFiles="@(_SkyrimForgePrismaUiView->'$(SkyrimForgeDataDir)PrismaUI\views\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>
+
+  <Target Name="_SkyrimForgePrismaUiDeployViews" AfterTargets="SkyrimForgeDeploy" Condition="'$(SkyrimForgeDeployDirectory)' != ''">
+    <PropertyGroup>
+      <_SkyrimForgePrismaUiDeployDir>$([MSBuild]::NormalizeDirectory('$(MSBuildProjectDirectory)', '$(SkyrimForgeDeployDirectory)'))</_SkyrimForgePrismaUiDeployDir>
+    </PropertyGroup>
+    <Copy SourceFiles="@(_SkyrimForgePrismaUiView)" DestinationFiles="@(_SkyrimForgePrismaUiView->'$(_SkyrimForgePrismaUiDeployDir)PrismaUI\views\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>
+
+</Project>

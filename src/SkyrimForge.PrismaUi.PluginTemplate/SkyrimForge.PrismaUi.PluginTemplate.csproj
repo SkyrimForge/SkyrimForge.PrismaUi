@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageType>Template</PackageType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Description>The dotnet new template for a SkyrimForge plugin with a PrismaUI view: a .NET 10 class library that references the SkyrimForge.PrismaUi package, with a plugin class and a page that call each other.</Description>
+    <PackageTags>skyrim;skse;skyrimforge;prismaui;dotnet-new;template</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <ContentTargetFolders>content</ContentTargetFolders>
+    <!-- Includes .template.config, which dotnet pack omits by default. -->
+    <NoDefaultExcludes>true</NoDefaultExcludes>
+    <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+    <TemplateProject>templates\PrismaUiPlugin\PrismaUiPlugin.csproj</TemplateProject>
+    <BeforePack>$(BeforePack);WriteTemplateProject</BeforePack>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="templates\**\*" Exclude="$(TemplateProject)" />
+    <Compile Remove="**\*" />
+    <None Update="README.md" Pack="true" PackagePath="README.md" />
+  </ItemGroup>
+
+  <!-- Writes this package's version into the template's project. -->
+  <Target Name="WriteTemplateProject">
+    <PropertyGroup>
+      <TemplateProjectCopy>$(IntermediateOutputPath)PrismaUiPlugin.csproj</TemplateProjectCopy>
+    </PropertyGroup>
+    <WriteLinesToFile
+      File="$(TemplateProjectCopy)"
+      Lines="$([MSBuild]::Escape($([System.IO.File]::ReadAllText('$(MSBuildProjectDirectory)\$(TemplateProject)').Replace('SKYRIMFORGE_PRISMAUI_VERSION', '$(Version)'))))"
+      Overwrite="true"
+      WriteOnlyWhenDifferent="true" />
+    <ItemGroup>
+      <Content Include="$(TemplateProjectCopy)" PackagePath="content\templates\PrismaUiPlugin\PrismaUiPlugin.csproj" />
+    </ItemGroup>
+  </Target>
+
+</Project>

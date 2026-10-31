@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PrismaUiPlugin</title>
+<style>
+  html, body { margin: 0; height: 100%; background: transparent; font-family: Georgia, serif; color: #f2e8d5; }
+  #panel { position: absolute; top: 8%; left: 6%; width: 26rem; padding: 1.25rem 1.5rem; border: 1px solid #6d5a3a; border-radius: 4px; background: rgba(12, 10, 8, 0.82); }
+  h1 { margin: 0 0 0.5rem; font-size: 1.25rem; letter-spacing: 0.04em; }
+</style>
+</head>
+<body>
+<div id="panel">
+  <h1>SkyrimForge + PrismaUI</h1>
+  <p>Press the slash key (/) to close this view.</p>
+  <p id="status">Waiting for the plugin.</p>
+</div>
+<script>
+  // The plugin calls this.
+  function setStatus(text) {
+    document.getElementById("status").textContent = text;
+  }
+
+  // PrismaUI binds sendToPlugin after the page finishes loading.
+  var bound = setInterval(function () {
+    if (typeof sendToPlugin === "function") {
+      clearInterval(bound);
+      sendToPlugin("The page loaded.");
+    }
+  }, 50);
+</script>
+</body>
+</html>

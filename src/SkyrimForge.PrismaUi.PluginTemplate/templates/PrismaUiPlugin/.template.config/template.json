@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Wessley Mitchell",
+  "classifications": [ "Skyrim", "SKSE", "SkyrimForge", "Plugin", "PrismaUI" ],
+  "identity": "SkyrimForge.PrismaUi.PluginTemplate",
+  "name": "SkyrimForge PrismaUI Plugin",
+  "description": "A SkyrimForge plugin with a PrismaUI view: a .NET 10 class library that references the SkyrimForge.PrismaUi package, with a plugin class and a page that call each other.",
+  "shortName": "skyrimforge-prismaui-plugin",
+  "sourceName": "PrismaUiPlugin",
+  "preferNameDirectory": true,
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  }
+}
