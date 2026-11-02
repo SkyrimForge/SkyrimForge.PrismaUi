@@ -10,7 +10,7 @@
     <Authors>Wessley Mitchell</Authors>
     <Copyright>Copyright 2026 Wessley Mitchell</Copyright>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
-    <PackageProjectUrl>https://docs.skyrimforge.net/prismaui/</PackageProjectUrl>
+    <PackageProjectUrl>https://docs.skyrimforge.net/prisma-ui/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/SkyrimForge/SkyrimForge.PrismaUi</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>

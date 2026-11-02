@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace SkyrimForge.PrismaUi;
 
-/// <summary>A PrismaUI view: a page drawn over the game.</summary>
+/// <summary>A Prisma UI view: a page drawn over the game.</summary>
 /// <remarks>After <see cref="Destroy"/>, members have no effect.</remarks>
 public sealed class PrismaView
 {
@@ -32,9 +32,9 @@ public sealed class PrismaView
     /// <summary>Raised for each message the page writes to the console. Warnings and errors are logged regardless.</summary>
     public IGameEvent<ConsoleMessageEventArgs> OnConsoleMessage => ConsoleMessage;
 
-    private void LogException(Exception ex) => Log.Write($"A PrismaUI event subscriber threw and was dropped: {ex.GetType().Name}: {ex.Message}");
+    private void LogException(Exception ex) => Log.Write($"A Prisma UI event subscriber threw and was dropped: {ex.GetType().Name}: {ex.Message}");
 
-    /// <summary>Whether PrismaUI still has this view.</summary>
+    /// <summary>Whether Prisma UI still has this view.</summary>
     public bool IsValid => Handle != 0 && NativeBindings.SFP_IsValid(Handle);
 
     /// <summary>Whether this view has input focus.</summary>
@@ -105,7 +105,7 @@ public sealed class PrismaView
 
     /// <summary>Registers a global function the page can call. Registering a name again replaces its handler.</summary>
     /// <returns>A subscription that stops the handler, or <c>null</c> if the view is gone or no slot is free.</returns>
-    /// <remarks>PrismaUI binds the name after the page finishes loading, which can follow <see cref="OnDomReady"/>.</remarks>
+    /// <remarks>Prisma UI binds the name after the page finishes loading, which can follow <see cref="OnDomReady"/>.</remarks>
     public ISubscription? RegisterJSListener(string functionName, Action<string> handler)
     {
         ArgumentNullException.ThrowIfNull(functionName);
@@ -116,7 +116,7 @@ public sealed class PrismaView
             return PrismaViews.RegisterListener(this, functionName, handler);
         }
 
-        Log.Write($"{nameof(RegisterJSListener)} did nothing for \"{functionName}\", because PrismaUI has no such view.");
+        Log.Write($"{nameof(RegisterJSListener)} did nothing for \"{functionName}\", because Prisma UI has no such view.");
         return null;
     }
 
@@ -124,7 +124,7 @@ public sealed class PrismaView
     /// <returns><c>false</c> if the view is gone. The work is queued, so <see cref="HasFocus"/> can still be <c>false</c> on return.</returns>
     /// <remarks>
     /// A hidden view cannot take focus. Outside Skyrim VR, this disables the player's controls until <see cref="Unfocus"/>, and <paramref name="pauseGame"/> pauses the game.
-    /// <paramref name="disableFocusMenu"/> omits PrismaUI's focus menu, which draws the cursor. Outside Skyrim VR, typing into a page requires the Media Keys Fix mod.
+    /// <paramref name="disableFocusMenu"/> omits Prisma UI's focus menu, which draws the cursor. Outside Skyrim VR, typing into a page requires the Media Keys Fix mod.
     /// </remarks>
     public bool Focus(bool pauseGame = false, bool disableFocusMenu = false) => Handle != 0 && NativeBindings.SFP_Focus(Handle, pauseGame, disableFocusMenu);
 
@@ -173,7 +173,7 @@ public sealed class PrismaView
         }
     }
 
-    /// <summary>Destroys the view, blocking until PrismaUI has released it. A view otherwise survives a save load.</summary>
+    /// <summary>Destroys the view, blocking until Prisma UI has released it. A view otherwise survives a save load.</summary>
     public void Destroy()
     {
         ulong handle = Handle;

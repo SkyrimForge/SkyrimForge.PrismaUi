@@ -19,4 +19,4 @@ If you modify this Program, or any covered work, by linking or combining it with
 Scope
 
 For SkyrimForge.PrismaUi, the Modded Code is Skyrim Special Edition (including the Anniversary Edition) and Skyrim VR.
-The Modding Libraries are SKSE64, SKSEVR, and PrismaUI, and the Modding Library Licenses are their licenses.
+The Modding Libraries are SKSE64, SKSEVR, and Prisma UI, and the Modding Library Licenses are their licenses.

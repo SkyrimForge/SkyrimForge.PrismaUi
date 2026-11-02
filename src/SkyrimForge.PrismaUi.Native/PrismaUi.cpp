@@ -28,7 +28,7 @@ namespace
 
     constexpr std::uint32_t slotCount = 512;
 
-    // PrismaUI's callbacks receive no context, so each slot needs its own function.
+    // Prisma UI's callbacks receive no context, so each slot needs its own function.
     template <std::uint32_t Slot>
     void JsResultStub(const char* result)
     {
@@ -274,7 +274,7 @@ extern "C" __declspec(dllexport) bool SFP_HasAnyActiveFocus()
     return g_api != nullptr && g_api->HasAnyActiveFocus();
 }
 
-// False if the installed PrismaUI predates IVPrismaUI2.
+// False if the installed Prisma UI predates IVPrismaUI2.
 extern "C" __declspec(dllexport) bool SFP_RegisterConsoleCallback(std::uint64_t view, bool wanted)
 {
     if (g_api2 == nullptr)

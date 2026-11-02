@@ -3,8 +3,8 @@
   <PropertyGroup>
     <PackageType>Template</PackageType>
     <TargetFramework>net10.0</TargetFramework>
-    <Description>The dotnet new template for a SkyrimForge plugin with a PrismaUI view: a .NET 10 class library that references the SkyrimForge.PrismaUi package, with a plugin class and a page that call each other.</Description>
-    <PackageTags>skyrim;skse;skyrimforge;prismaui;dotnet-new;template</PackageTags>
+    <Description>The dotnet new template for a SkyrimForge plugin with a Prisma UI view: a .NET 10 class library that references the SkyrimForge.PrismaUi package, with a plugin class and a page that call each other.</Description>
+    <PackageTags>skyrim;skse;skyrimforge;prismaui;prisma-ui;dotnet-new;template</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <ContentTargetFolders>content</ContentTargetFolders>

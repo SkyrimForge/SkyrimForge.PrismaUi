@@ -11,7 +11,7 @@
 </head>
 <body>
 <div id="panel">
-  <h1>SkyrimForge + PrismaUI</h1>
+  <h1>SkyrimForge + Prisma UI</h1>
   <p>Press the slash key (/) to close this view.</p>
   <p id="status">Waiting for the plugin.</p>
 </div>
@@ -21,7 +21,7 @@
     document.getElementById("status").textContent = text;
   }
 
-  // PrismaUI binds sendToPlugin after the page finishes loading.
+  // Prisma UI binds sendToPlugin after the page finishes loading.
   var bound = setInterval(function () {
     if (typeof sendToPlugin === "function") {
       clearInterval(bound);

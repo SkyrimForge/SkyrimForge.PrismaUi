@@ -1,8 +1,8 @@
-SkyrimForge.PrismaUi's native shim, SkyrimForge.PrismaUi.Native.dll, compiles PrismaUI_API.h, copied unmodified from PrismaUI.
-That file's comment permits the copy. PrismaUI's license is reproduced below.
+SkyrimForge.PrismaUi's native shim, SkyrimForge.PrismaUi.Native.dll, compiles PrismaUI_API.h, copied unmodified from Prisma UI.
+That file's comment permits the copy. Prisma UI's license is reproduced below.
 
 ================================================================================
-PrismaUI
+Prisma UI
 https://github.com/PrismaUI-SKSE/framework
 ================================================================================
 

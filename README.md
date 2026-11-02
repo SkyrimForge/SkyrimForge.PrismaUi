@@ -1,16 +1,16 @@
 # SkyrimForge.PrismaUi
 
 SkyrimForge.PrismaUi lets a [SkyrimForge](https://github.com/SkyrimForge/SkyrimForge) plugin create and script
-[PrismaUI](https://github.com/PrismaUI-SKSE/framework) views in C#. PrismaUI renders HTML, CSS, and JavaScript over the game.
+[Prisma UI](https://github.com/PrismaUI-SKSE/framework) views in C#. Prisma UI renders HTML, CSS, and JavaScript over the game.
 
 ## Requirements to Run
 
 - [SkyrimForge](https://www.nexusmods.com/skyrimspecialedition/mods/196701)
-- [PrismaUI](https://www.nexusmods.com/skyrimspecialedition/mods/148718)
+- [Prisma UI](https://www.nexusmods.com/skyrimspecialedition/mods/148718)
 - [SkyrimForge.PrismaUi](https://www.nexusmods.com/skyrimspecialedition/mods/197581), which contains the binding and its native shim
 - [Media Keys Fix](https://www.nexusmods.com/skyrimspecialedition/mods/92948), only for text input in a page, except on Skyrim VR
 
-Without PrismaUI, the `PrismaUiApi` constructor throws an `InvalidOperationException` whose message states the cause.
+Without Prisma UI, the `PrismaUiApi` constructor throws an `InvalidOperationException` whose message states the cause.
 
 ## Writing a Plugin
 
@@ -37,12 +37,12 @@ The `SkyrimForge.PrismaUi.PluginTemplate` package creates a plugin that scripts 
 
 ```powershell
 dotnet new install SkyrimForge.PrismaUi.PluginTemplate
-dotnet new skyrimforge-prismaui-plugin --name <YourPluginName>
+dotnet new skyrimforge-prisma-ui-plugin --name <YourPluginName>
 ```
 
 ## Documentation
 
-[docs.skyrimforge.net/prismaui](https://docs.skyrimforge.net/prismaui/) covers views and the API reference.
+[docs.skyrimforge.net/prisma-ui](https://docs.skyrimforge.net/prisma-ui/) covers views and the API reference.
 
 ## Building
 
@@ -57,5 +57,5 @@ Building requires the .NET 10 SDK and Visual Studio's "Desktop development with 
 ## License
 
 SkyrimForge.PrismaUi is licensed under the [GNU General Public License, version 3 or later](https://github.com/SkyrimForge/SkyrimForge.PrismaUi/blob/master/LICENSE), with the additional permissions in
-[EXCEPTIONS.md](https://github.com/SkyrimForge/SkyrimForge.PrismaUi/blob/master/EXCEPTIONS.md), which permit linking it with Skyrim, SKSE, and PrismaUI. A plugin built on it is a combined work with it,
+[EXCEPTIONS.md](https://github.com/SkyrimForge/SkyrimForge.PrismaUi/blob/master/EXCEPTIONS.md), which permit linking it with Skyrim, SKSE, and Prisma UI. A plugin built on it is a combined work with it,
 so its license must be compatible with the GPL. See [NOTICE](https://github.com/SkyrimForge/SkyrimForge.PrismaUi/blob/master/NOTICE) and [THIRD-PARTY-NOTICES](https://github.com/SkyrimForge/SkyrimForge.PrismaUi/blob/master/THIRD-PARTY-NOTICES) for the notices that copies must retain.

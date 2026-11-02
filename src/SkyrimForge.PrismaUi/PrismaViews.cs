@@ -99,7 +99,7 @@ internal static unsafe class PrismaViews
             }
         }
 
-        // PrismaUI drops a destroyed view's results, so complete them here.
+        // Prisma UI drops a destroyed view's results, so complete them here.
         foreach (Callback callback in dropped)
         {
             Run(callback.Log, () => callback.Handler(string.Empty));
@@ -208,7 +208,7 @@ internal static unsafe class PrismaViews
         }
         catch (Exception ex)
         {
-            log.Write($"A PrismaUI callback threw {ex.GetType().Name}: {ex.Message}");
+            log.Write($"A Prisma UI callback threw {ex.GetType().Name}: {ex.Message}");
         }
     }
 
