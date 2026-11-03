@@ -1,4 +1,5 @@
 ﻿using SkyrimForge;
+using SkyrimForge.Events;
 using SkyrimForge.Game;
 using SkyrimForge.PrismaUi;
 using System.Threading.Tasks;

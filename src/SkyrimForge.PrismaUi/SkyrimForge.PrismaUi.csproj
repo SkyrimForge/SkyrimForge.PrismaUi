@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <!-- Passes SkyrimForge's build steps to a plugin that references only this package. -->
-    <PackageReference Include="SkyrimForge" Version="0.1.1" PrivateAssets="none" />
+    <PackageReference Include="SkyrimForge" Version="0.2.0" PrivateAssets="none" />
   </ItemGroup>
 
   <ItemGroup>

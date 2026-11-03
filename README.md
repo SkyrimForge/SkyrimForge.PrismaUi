@@ -18,6 +18,7 @@ A plugin references the `SkyrimForge.PrismaUi` NuGet package and declares `Prism
 
 ```csharp
 using SkyrimForge;
+using SkyrimForge.Events;
 using SkyrimForge.PrismaUi;
 
 namespace ViewPlugin;
