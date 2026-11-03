@@ -1,15 +1,19 @@
 ﻿<#
 .SYNOPSIS
-    Builds SkyrimForge.PrismaUi and copies it into its own Mod Organizer 2 mod folder.
+    Builds SkyrimForge.PrismaUi and copies it into a Mod Organizer 2 mod folder.
 
 .PARAMETER Root
-    The SKSE\Plugins folder of the mod. Defaults to the SkyrimForge.PrismaUi mod.
+    The SKSE\Plugins folder to which to deploy in a mod folder whose mods folder also contains the deployed SkyrimForge mod.
+    Defaults to the SkyrimForge.PrismaUi mod of Mod Organizer 2's global Skyrim Special Edition instance.
 
 .PARAMETER NoBuild
     Copies the last build instead of running Build.ps1.
 
 .EXAMPLE
     .\Deploy.ps1
+
+.EXAMPLE
+    .\Deploy.ps1 -Root "C:\Modding\MO2\mods\SkyrimForge.PrismaUi\SKSE\Plugins"
 #>
 [CmdletBinding()]
 param(
@@ -38,16 +42,16 @@ if (-not $NoBuild) {
 
 $framework = Join-Path $Root 'SkyrimForge'
 $library = Join-Path $framework 'SharedLibraries\SkyrimForge.PrismaUi'
-$plugin = Join-Path $framework 'Plugins\SkyrimForge.PrismaUi.ExamplePlugin'
+$examplePlugin = Join-Path $framework 'Plugins\SkyrimForge.PrismaUi.ExamplePlugin'
 $src = Join-Path $PSScriptRoot 'src'
-$output = 'bin\Release\net10.0\SKSE\Plugins\SkyrimForge'
-$views = Join-Path $src 'SkyrimForge.PrismaUi.PluginTemplate\templates\PrismaUiPlugin\PrismaUI\views'
+$output = 'bin\Release\net10.0'
+$views = "$src\SkyrimForge.PrismaUi.PluginTemplate\templates\PrismaUiPlugin\PrismaUI\views"
 
 $files = @(
     @{ From = "$src\SkyrimForge.PrismaUi.Native\x64\Release\SkyrimForge.PrismaUi.Native.dll"; To = $library }
-    @{ From = "$src\SkyrimForge.PrismaUi\$output\SharedLibraries\SkyrimForge.PrismaUi\SkyrimForge.PrismaUi.dll"; To = $library }
-    @{ From = "$src\SkyrimForge.PrismaUi.ExamplePlugin\$output\Plugins\SkyrimForge.PrismaUi.ExamplePlugin\SkyrimForge.PrismaUi.ExamplePlugin.dll"; To = $plugin }
-    @{ From = "$src\SkyrimForge.PrismaUi.ExamplePlugin\$output\Plugins\SkyrimForge.PrismaUi.ExamplePlugin\SkyrimForge.PrismaUi.ExamplePlugin.deps.json"; To = $plugin }
+    @{ From = "$src\SkyrimForge.PrismaUi\$output\SKSE\Plugins\SkyrimForge\SharedLibraries\SkyrimForge.PrismaUi\SkyrimForge.PrismaUi.dll"; To = $library }
+    @{ From = "$src\SkyrimForge.PrismaUi.ExamplePlugin\$output\SKSE\Plugins\SkyrimForge\Plugins\SkyrimForge.PrismaUi.ExamplePlugin\SkyrimForge.PrismaUi.ExamplePlugin.dll"; To = $examplePlugin }
+    @{ From = "$src\SkyrimForge.PrismaUi.ExamplePlugin\$output\SKSE\Plugins\SkyrimForge\Plugins\SkyrimForge.PrismaUi.ExamplePlugin\SkyrimForge.PrismaUi.ExamplePlugin.deps.json"; To = $examplePlugin }
 )
 foreach ($page in Get-ChildItem $views -Recurse -File) {
     $files += @{ From = $page.FullName; To = Join-Path $modRoot "PrismaUI\views$($page.DirectoryName.Substring($views.Length))" }
