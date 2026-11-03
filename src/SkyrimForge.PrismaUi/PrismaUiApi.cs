@@ -43,11 +43,21 @@ public sealed class PrismaUiApi
 
     /// <summary>Creates a view over a page.</summary>
     /// <param name="htmlPath">A path under <c>Data\PrismaUI\views</c>, such as <c>mymod/index.html</c>, or an <c>http://</c> or <c>https://</c> URL.</param>
-    /// <returns>The view, or <c>null</c> if Prisma UI created none.</returns>
+    /// <returns>The view.</returns>
     /// <remarks>
     /// Call this from <see cref="IGameEvents.OnInputLoaded"/> or later, because Prisma UI initializes on the first view and requires the input device manager.
     /// A missing page still returns a view, and DOM ready is never raised. The process ends if Prisma UI's renderer fails to start.
     /// </remarks>
+    /// <exception cref="ArgumentNullException"><paramref name="htmlPath"/> is <c>null</c>.</exception>
+    /// <exception cref="InvalidOperationException">Prisma UI created no view.</exception>
+    public PrismaView CreateView(string htmlPath) =>
+        CreateViewOrNull(htmlPath) ?? throw new InvalidOperationException($"Prisma UI created no view for {htmlPath}.");
+
+    /// <summary>Creates a view over a page, or returns <c>null</c> if Prisma UI creates none.</summary>
+    /// <inheritdoc cref="CreateView(string)" path="/param"/>
+    /// <returns>The view, or <c>null</c> if Prisma UI created none.</returns>
+    /// <inheritdoc cref="CreateView(string)" path="/remarks"/>
+    /// <exception cref="ArgumentNullException"><paramref name="htmlPath"/> is <c>null</c>.</exception>
     public PrismaView? CreateViewOrNull(string htmlPath)
     {
         ArgumentNullException.ThrowIfNull(htmlPath);

@@ -27,12 +27,13 @@ public sealed class ViewPlugin(PrismaUiApi prisma, IGameEvents events) : IPlugin
 {
     public void Start()
     {
-        events.OnInputLoaded.Subscribe(_ => prisma.CreateViewOrNull("view-plugin/index.html"));
+        events.OnInputLoaded.Subscribe(_ => prisma.CreateView("view-plugin/index.html"));
     }
 }
 ```
 
-Create a view from `OnInputLoaded` or later. The path is relative to `Data\PrismaUI\views`.
+Create a view from `OnInputLoaded` or later. The path is relative to `Data\PrismaUI\views`. `CreateView` throws an `InvalidOperationException` if Prisma UI creates
+no view, and `CreateViewOrNull` returns `null` instead.
 
 The `SkyrimForge.PrismaUi.PluginTemplate` package creates a plugin that scripts a view, receives calls from its JavaScript, and destroys it:
 
