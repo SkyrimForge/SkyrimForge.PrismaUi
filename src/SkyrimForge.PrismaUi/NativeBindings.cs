@@ -16,18 +16,8 @@ internal static unsafe partial class NativeBindings
 
     private static nint Resolve(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
     {
-        if (libraryName != native)
-        {
-            return 0;
-        }
-
-        string? directory = Path.GetDirectoryName(typeof(NativeBindings).Assembly.Location);
-        if (string.IsNullOrEmpty(directory))
-        {
-            return 0;
-        }
-
-        return NativeLibrary.TryLoad(Path.Combine(directory, native), out nint handle) ? handle : 0;
+        string? directory = Path.GetDirectoryName(assembly.Location);
+        return libraryName == native && directory != null && NativeLibrary.TryLoad(Path.Combine(directory, native), out nint handle) ? handle : 0;
     }
 
     [LibraryImport(native, EntryPoint = "SFP_Acquire")]
@@ -45,7 +35,7 @@ internal static unsafe partial class NativeBindings
     internal static partial uint SFP_SlotCount();
 
     [LibraryImport(native, EntryPoint = "SFP_CreateView", StringMarshalling = StringMarshalling.Utf8)]
-    internal static partial ulong SFP_CreateView(string htmlPath, [MarshalAs(UnmanagedType.U1)] bool wantDomReady);
+    internal static partial ulong SFP_CreateView(string htmlPath);
 
     [LibraryImport(native, EntryPoint = "SFP_Invoke", StringMarshalling = StringMarshalling.Utf8)]
     internal static partial void SFP_Invoke(ulong view, string script, uint slot);
@@ -112,8 +102,4 @@ internal static unsafe partial class NativeBindings
     [LibraryImport(native, EntryPoint = "SFP_HasAnyActiveFocus")]
     [return: MarshalAs(UnmanagedType.U1)]
     internal static partial bool SFP_HasAnyActiveFocus();
-
-    [LibraryImport(native, EntryPoint = "SFP_RegisterConsoleCallback")]
-    [return: MarshalAs(UnmanagedType.U1)]
-    internal static partial bool SFP_RegisterConsoleCallback(ulong view, [MarshalAs(UnmanagedType.U1)] bool wanted);
 }

@@ -17,23 +17,8 @@ public sealed class PrismaUiApi
         ArgumentNullException.ThrowIfNull(log);
 
         this.log = log;
-        PrismaUiAvailability availability = PrismaViews.Acquire();
-        ConsoleMessagesSupported = availability switch
-        {
-            PrismaUiAvailability.Available => true,
-            PrismaUiAvailability.AvailableWithoutConsoleMessages => false,
-            _ => throw new InvalidOperationException(Explain(availability))
-        };
+        ConsoleMessagesSupported = PrismaViews.Acquire();
     }
-
-    private static string Explain(PrismaUiAvailability availability) => availability switch
-    {
-        PrismaUiAvailability.PluginNotLoaded => "PrismaUI.dll is not loaded. Install or enable Prisma UI.",
-        PrismaUiAvailability.PluginHasNoEntryPoint => "PrismaUI.dll exports no RequestPluginAPI.",
-        PrismaUiAvailability.PluginReturnedNoInterface => "Prisma UI returned no interface.",
-        _ => "SkyrimForge.PrismaUi.dll is loaded more than once. "
-            + "Deploy it only in SKSE\\Plugins\\SkyrimForge\\SharedLibraries\\SkyrimForge.PrismaUi, not beside the plugins."
-    };
 
     /// <summary>Whether the installed Prisma UI raises <see cref="PrismaView.OnConsoleMessage"/>.</summary>
     public bool ConsoleMessagesSupported { get; }

@@ -58,27 +58,14 @@ foreach ($page in Get-ChildItem $views -Recurse -File) {
 }
 
 Write-Host "Deploying to $modRoot" -ForegroundColor Cyan
-$failed = 0
 foreach ($file in $files) {
     if (-not (Test-Path $file.From)) {
         throw "$($file.From) is missing. Run .\Build.ps1 first."
     }
 
-    $name = Split-Path $file.From -Leaf
     New-Item -ItemType Directory -Force -Path $file.To | Out-Null
     Copy-Item $file.From -Destination $file.To -Force
-
-    if ((Get-FileHash $file.From).Hash -eq (Get-FileHash (Join-Path $file.To $name)).Hash) {
-        Write-Host "  ok   $name"
-    }
-    else {
-        Write-Host "  FAIL $name" -ForegroundColor Red
-        $failed++
-    }
-}
-
-if ($failed -gt 0) {
-    throw "$failed file(s) differ from the build output."
+    Write-Host "  $(Split-Path $file.From -Leaf)"
 }
 
 if (-not (Test-Path (Join-Path $mods '*\SKSE\Plugins\PrismaUI.dll'))) {

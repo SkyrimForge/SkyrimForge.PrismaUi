@@ -11,7 +11,7 @@ namespace SkyrimForge.PrismaUi;
 
 internal static unsafe class PrismaViews
 {
-    private static readonly Lock gate = new();
+    private static readonly Lock stateLock = new();
     private static readonly Dictionary<ulong, PrismaView> views = [];
     private static readonly ConcurrentDictionary<uint, Callback> scriptResults = new();
     private static readonly ConcurrentDictionary<uint, Callback> listeners = new();
@@ -20,24 +20,26 @@ internal static unsafe class PrismaViews
 
     private static bool handlersInstalled;
 
-    internal static PrismaUiAvailability Acquire()
+    // Returns whether the installed Prisma UI sends console messages. The cases are the Acquisition values in PrismaUi.cpp.
+    internal static bool Acquire()
     {
-        lock (gate)
+        lock (stateLock)
         {
-            PrismaUiAvailability availability = NativeBindings.SFP_Acquire() switch
+            bool consoleMessagesSupported = NativeBindings.SFP_Acquire() switch
             {
-                0 => PrismaUiAvailability.Available,
-                1 => PrismaUiAvailability.AvailableWithoutConsoleMessages,
-                2 => PrismaUiAvailability.PluginNotLoaded,
-                3 => PrismaUiAvailability.PluginHasNoEntryPoint,
-                _ => PrismaUiAvailability.PluginReturnedNoInterface
+                0 => true,
+                1 => false,
+                2 => throw new InvalidOperationException("PrismaUI.dll is not loaded. Install or enable Prisma UI."),
+                3 => throw new InvalidOperationException("PrismaUI.dll exports no RequestPluginAPI."),
+                _ => throw new InvalidOperationException("Prisma UI returned no interface.")
             };
 
-            if (availability is PrismaUiAvailability.Available or PrismaUiAvailability.AvailableWithoutConsoleMessages && !handlersInstalled)
+            if (!handlersInstalled)
             {
                 if (!NativeBindings.SFP_SetHandlers(&OnDomReady, &OnScriptResult, &OnListener, &OnConsoleMessage))
                 {
-                    return PrismaUiAvailability.LoadedMoreThanOnce;
+                    throw new InvalidOperationException("SkyrimForge.PrismaUi.dll is loaded more than once. "
+                        + @"Deploy it only in SKSE\Plugins\SkyrimForge\SharedLibraries\SkyrimForge.PrismaUi, not beside the plugins.");
                 }
 
                 uint[] slots = [.. Enumerable.Range(0, (int)NativeBindings.SFP_SlotCount()).Select(i => (uint)i)];
@@ -46,16 +48,16 @@ internal static unsafe class PrismaViews
                 handlersInstalled = true;
             }
 
-            return availability;
+            return consoleMessagesSupported;
         }
     }
 
     // Locked so DOM ready cannot arrive before the view is registered.
     internal static PrismaView? CreateView(string htmlPath, ILog log)
     {
-        lock (gate)
+        lock (stateLock)
         {
-            ulong handle = NativeBindings.SFP_CreateView(htmlPath, true);
+            ulong handle = NativeBindings.SFP_CreateView(htmlPath);
             if (handle == 0)
             {
                 return null;
@@ -63,7 +65,6 @@ internal static unsafe class PrismaViews
 
             var view = new PrismaView(handle, log);
             views[handle] = view;
-            NativeBindings.SFP_RegisterConsoleCallback(handle, true);
 
             view.ConsoleMessage.Subscribe(args =>
             {
@@ -80,7 +81,7 @@ internal static unsafe class PrismaViews
     internal static void Remove(PrismaView view)
     {
         List<Callback> dropped = [];
-        lock (gate)
+        lock (stateLock)
         {
             views.Remove(view.Handle);
             foreach (uint slot in view.ListenerSlots.Values)
@@ -109,7 +110,7 @@ internal static unsafe class PrismaViews
 
     internal static ISubscription? RegisterListener(PrismaView view, string functionName, Action<string> handler)
     {
-        lock (gate)
+        lock (stateLock)
         {
             if (!view.ListenerSlots.TryGetValue(functionName, out uint slot))
             {
@@ -139,7 +140,7 @@ internal static unsafe class PrismaViews
     // Locked so Remove cannot recycle the slot before the script is submitted.
     internal static Task<string> Invoke(ulong handle, string script, ILog log)
     {
-        lock (gate)
+        lock (stateLock)
         {
             if (!freeScriptResultSlots.TryPop(out uint slot))
             {
@@ -159,7 +160,7 @@ internal static unsafe class PrismaViews
     private static void OnDomReady(ulong handle)
     {
         PrismaView? view;
-        lock (gate)
+        lock (stateLock)
         {
             views.TryGetValue(handle, out view);
         }
@@ -192,7 +193,7 @@ internal static unsafe class PrismaViews
     private static void OnConsoleMessage(ulong handle, byte level, byte* message)
     {
         PrismaView? view;
-        lock (gate)
+        lock (stateLock)
         {
             views.TryGetValue(handle, out view);
         }

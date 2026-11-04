@@ -13,20 +13,6 @@ param()
 
 $ErrorActionPreference = 'Stop'
 
-function Find-MSBuild {
-    $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
-    if (-not (Test-Path $vswhere)) {
-        throw "vswhere.exe not found at $vswhere. Install the ""Desktop development with C++"" workload in Visual Studio."
-    }
-
-    $msbuild = & $vswhere -latest -products * -requires Microsoft.Component.MSBuild -find 'MSBuild\**\Bin\MSBuild.exe' | Select-Object -First 1
-    if (-not $msbuild) {
-        throw "MSBuild not found. Install the ""Desktop development with C++"" workload in Visual Studio."
-    }
-
-    return $msbuild
-}
-
 $solution = Join-Path $PSScriptRoot 'SkyrimForge.PrismaUi.slnx'
 $shim = Join-Path $PSScriptRoot 'src\SkyrimForge.PrismaUi.Native\SkyrimForge.PrismaUi.Native.vcxproj'
 
@@ -42,7 +28,14 @@ Write-Host 'Building managed projects...' -ForegroundColor Cyan
 & dotnet build $solution -c Release --nologo
 if ($LASTEXITCODE -ne 0) { throw 'Managed build failed.' }
 
-$msbuild = Find-MSBuild
+$vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
+if (-not (Test-Path $vswhere)) {
+    throw "vswhere.exe not found at $vswhere. Install the ""Desktop development with C++"" workload in Visual Studio."
+}
+$msbuild = & $vswhere -latest -products * -requires Microsoft.Component.MSBuild -find 'MSBuild\**\Bin\MSBuild.exe' | Select-Object -First 1
+if (-not $msbuild) {
+    throw "MSBuild not found. Install the ""Desktop development with C++"" workload in Visual Studio."
+}
 Write-Host "Building native shim using $msbuild" -ForegroundColor Cyan
 & $msbuild $shim -p:Configuration=Release -p:Platform=x64 -nologo -v:minimal
 if ($LASTEXITCODE -ne 0) { throw 'Native build failed.' }
