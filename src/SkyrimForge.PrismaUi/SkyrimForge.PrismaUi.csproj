@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <WarningsAsErrors>nullable</WarningsAsErrors>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <!-- The framework reads service sources only from SharedLibraries. -->
+    <!-- The SkyrimForge framework reads service sources only from SharedLibraries. -->
     <SkyrimForgeSharedLibrary>true</SkyrimForgeSharedLibrary>
     <!-- Omits runtimeconfig.json from the package. -->
     <EnableDynamicLoading>false</EnableDynamicLoading>
@@ -18,8 +18,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Passes SkyrimForge's build steps to a plugin that references only this package. -->
-    <PackageReference Include="SkyrimForge" Version="0.2.0" PrivateAssets="none" />
+    <!-- By default, NuGet withholds a dependency's build files and analyzers. PrivateAssets="none" passes SkyrimForge's, including its Papyrus source generator, to plugins that reference this package. -->
+    <PackageReference Include="SkyrimForge" Version="0.3.0" PrivateAssets="none" />
   </ItemGroup>
 
   <ItemGroup>
